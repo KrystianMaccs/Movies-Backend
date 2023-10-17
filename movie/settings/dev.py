@@ -16,6 +16,15 @@ DATABASES = {
     }
 }
 
+# MONGODB_DATABASES = {
+#     'default': {
+#         'NAME': config("MONGDB"),
+#         'HOST': config("MONGO_HOST"),
+#         'PORT': config("MONGO_PORT"),
+#     }
+# }
+
+
 # Email SMTP Settings
 
 EMAIL_HOST = config("EMAIL_HOST")
