@@ -35,6 +35,7 @@ SITE_ID = 1
 
 LOCAL_APPS = [
     "accounts",
+    "movies",
 ]
 
 THIRD_PARTY_APPS = [

@@ -5,19 +5,25 @@ from datetime import datetime, timedelta
 
 from .models import Movie
 
+from django.db.models.signals import post_save, post_delete, post_update
+from django.dispatch import receiver
+from .models import Movie
+
+
+
 @receiver(post_save, sender=Movie)
-def replicate_to_mongodb(sender, instance, **kwargs):
-    # Create a MongoDB connection
-    client = MongoClient('localhost', 27017)
-    mongodb = client['your_mongodb_db']
+def sync_movie_to_mongodb(sender, instance, created, **kwargs):
+    if created:
+        print("Instance has been saved to Mongo db")
+        mongo_db.movies.insert_one(instance.to_mongo())
+    else:
+        mongo_db.movies.update_one({"id": instance.id}, {"$set": instance.to_mongo()})
 
-    # Create a MongoDB collection for your model
-    collection = mongodb['your_mongodb_collection']
 
-    # Convert Django model data to a dictionary and insert it into MongoDB
-    data_to_insert = instance.__dict__
-    del data_to_insert['_state']  # Remove unnecessary metadata
-    collection.insert_one(data_to_insert)
+@receiver(post_delete, sender=Movie)
+def delete_movie_from_mongodb(sender, instance, **kwargs):
+    mongo_db.movies.delete_one({"id": instance.id})
+
 
 
 @receiver(post_save, sender=Movie)

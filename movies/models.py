@@ -5,10 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 STATUS_CHOICES = [
-    _(('coming-up', 'Coming Up')),
-    _(('starting', 'Starting')),
-    _(('running', 'Running')),
-    _(('finished', 'Finished')),
+    ('coming-up', _('Coming Up')),
+    ('starting', _('Starting')),
+    ('running', _('Running')),
+    ('finished', _('Finished')),
 ]
 
 class Movie(models.Model):
